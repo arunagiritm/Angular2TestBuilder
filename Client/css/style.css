@@ -1,0 +1,78 @@
+ #mainWrapper{
+            width: 80%;
+            padding-left: 10%;
+            color:gray;
+            font-family: serif;
+        }
+        #logo{
+            margin-top: 10px;
+            margin-left: 20%;
+            width:50%;
+            height: 30px;
+            background-color: darkgray;
+            text-align: center;
+            color: white;
+            padding-top: 8px;
+            
+        }
+        a{
+            text-decoration: none;
+            color: gray;
+            font-size: 1.2em;
+        }
+        a:link{
+            
+        }
+        a:hover{
+            color: blue;
+            text-decoration: underline;
+        }
+        #contentLeft{
+           margin-top: 10px;
+           margin-left: 350px;
+           width: 40%;
+            height: 500px;
+            background-color: aliceblue;
+            float: left;
+            padding-top: 20px;
+            
+        }
+        #contentLeft #cLeft{
+            padding-left: 20px;
+            padding-bottom: 20px;
+        }
+         #contentLeft #cProgress{
+            padding-left: 20px; 
+            width: 80%;
+            height: 300px;
+            padding-top: 50px;
+        }
+       
+        #contentRight{
+            margin-top: 10px;
+            width: 59.5%;
+            float: right;
+            height: 500px;
+            
+        }
+        #contentRight #cRight{
+            margin-left: 15px;
+            width: 90%;
+            padding-left: 20px;
+            padding-bottom: 5px;
+            height: 500px;
+            border: 2px solid black;
+            overflow: auto;
+             background-color: antiquewhite;
+        }
+        #fileJson,   #fileoutput,#genFile{
+            visibility: hidden;
+        }
+        #cbuttons{
+            
+            
+            padding-left: 60px;
+            padding-right: 20px;
+
+
+        }
