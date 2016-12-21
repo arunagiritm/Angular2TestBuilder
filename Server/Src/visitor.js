@@ -26,6 +26,7 @@ function parse(sourceFile) {
     var parseMethods = angular2Class.class.methods;
     var parseMethodModel = {
         name: '',
+        type: '',
         decorator: '',
         parameters: [],
         returnType: {}
@@ -78,6 +79,7 @@ function parse(sourceFile) {
                 });
                 node.members.forEach(function (member) {
                     var parseMethodModelLocal = JSON.parse(JSON.stringify(parseMethodModel));
+                    parseMethodModelLocal.type = ts.SyntaxKind[member.kind].toString();
                     if (member.name) {
                         parseMethodModelLocal.name = member.name.text;
                     }
@@ -125,4 +127,3 @@ function parse(sourceFile) {
     }
 }
 exports.parse = parse;
-//# sourceMappingURL=visitor.js.map

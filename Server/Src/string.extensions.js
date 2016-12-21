@@ -195,3 +195,12 @@ String.prototype.endsWithRemove = function(text) {
     }
     return t;
 };
+String.prototype.initSmall = function(text){
+    var t = this.toString().trim();
+    if(t.length >0){
+        var t1 = t.substring(0,1).toLowerCase() 
+        var t2 = (t.length>1) ? t.substring(1) : '';
+        t= t1 + t2;
+    }
+    return t;
+}
