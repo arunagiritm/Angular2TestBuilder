@@ -1,7 +1,7 @@
 {
-  "name": "AngularFactory",
+  "name": "AngularTestGenerator",
   "version": "1.0.0",
-  "description": "Angular app to develop model classess",
+  "description": "Angular app to develop test Specs",
   "main": "server.js",
   "dependencies": {
     "angular": "1.3.0",
