@@ -1,11 +1,29 @@
 var app = angular.module("testBuilder");
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+};
 app.controller("testBuilderController", [
     '$scope',
     '$http',
     '$location',
     'commonService',
     '$q',
-    function(
+        function(
         $scope,
         $http,
         $location,
@@ -39,7 +57,8 @@ app.controller("testBuilderController", [
 
         $scope.populate = function() {
             if($scope.filename.length==0){
-                alert("Please select an Angular source file");
+                // alert("Please select an Angular source file");
+                toastr.error('Please select an Angular source file');
                 return;
             }
             resetProgress();
@@ -59,7 +78,8 @@ app.controller("testBuilderController", [
                     if (index >= files.length) {
                         $http.get("/CreateZip").success(function(response) {
                             $scope.genFileShow = true;
-                            alert("Test spec(s) created. Click the generated link to download.")
+                            // alert("Test spec(s) created. Click the generated link to download.")
+                            toastr.info("Test spec(s) created. Click the generated link to download.");
                         });
                         return;
                     }

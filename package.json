@@ -21,8 +21,10 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "@types/toastr": "^2.1.32",
     "@types/typescript": "^2.0.0",
     "nodemon": "^1.9.1",
+    "toastr": "^2.1.2",
     "typescript": "^2.1.4"
   },
   "scripts": {
