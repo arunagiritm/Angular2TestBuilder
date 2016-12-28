@@ -25,7 +25,8 @@
     "@types/typescript": "^2.0.0",
     "nodemon": "^1.9.1",
     "toastr": "^2.1.2",
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.4",
+    "uglify-js2": "^2.1.11"
   },
   "scripts": {
     "start": "nodemon server.js"

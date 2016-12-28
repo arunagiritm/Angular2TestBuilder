@@ -123,7 +123,7 @@ var getAng2Services = function (angular2Obj) {
     var its = [];
     var inputIts = ['//Input Properties validation'];
     var actualProvider = [];
-    var it;
+    var it='';
     var params = [];
     var methods = angular2Obj.class.methods;
     var className = angular2Obj.class.name;
