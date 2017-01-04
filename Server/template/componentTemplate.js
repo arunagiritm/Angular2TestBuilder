@@ -20,7 +20,7 @@ describe('%componentName%', () => {
 		   providers:    [ 
 							%providers% 
 						 ]
-		});
+		})%beforeEachEnd%;
 
 		fixture = TestBed.createComponent(%componentName%);
 		comp    = fixture.componentInstance;
@@ -30,7 +30,7 @@ describe('%componentName%', () => {
 		%serviceInjectors%
 		%spies%
 
-	%beforeEachEnd%
+	
 	
 	%itStatements%
 });

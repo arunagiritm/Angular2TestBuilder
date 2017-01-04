@@ -53,7 +53,7 @@ function parse(sourceFile) {
                         argument.properties.forEach(function (property) {
                             //console.log(`property name: ${property.name.text} `);
                             if (property.initializer.name) {
-                                if (component[property.name.text].length > 0) {
+                                if (component[property.name.text] && component[property.name.text].length > 0) {
                                     component[property.name.text] += ',' + property.initializer.name.text;
                                 }
                                 else {

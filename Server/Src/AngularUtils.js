@@ -72,7 +72,7 @@ var createAng2TestSpec = function (fname) {
     var debugElement = '';
     var htmlElement = '';
     var spies = ang2Services.spies;
-//    var moduleName =ang2Imports.match(/module/g).join();
+    //    var moduleName =ang2Imports.match(/module/g).join();
     compContent = compContent.replace(/%TestComponentFileImports%/g, ang2Imports.join('').replace(/{/g, '%:').replace(/}/g, '^:'))
         .replace(/%componentName%/g, componentName)
         .replace(/%providers%/g, providers)
@@ -123,7 +123,7 @@ var getAng2Services = function (angular2Obj) {
     var its = [];
     var inputIts = ['//Input Properties validation'];
     var actualProvider = [];
-    var it='';
+    var it = '';
     var params = [];
     var methods = angular2Obj.class.methods;
     var className = angular2Obj.class.name;
@@ -138,11 +138,14 @@ var getAng2Services = function (angular2Obj) {
         spies: [],
     }
     ang2ServicesObj.spies.push(intializeSpies(specType));
-    actualProvider.push(intializeProviders(specType));
+    if (specType == 'Component') {
+        actualProvider.push(intializeProviders(specType));
+    }
+
     for (var method in methods) {
         var parameters = methods[method].parameters;
         var mthd = methods[method];
-        params = [];
+        params = { names: [], its: [] };
         for (var param in parameters) {
             var parameter = parameters[param];
             if (methods[method].name.trim() === 'constructor') {
@@ -156,14 +159,15 @@ var getAng2Services = function (angular2Obj) {
                 }
             }
             else {
-                params.push(parameter.name);
-                it = it.AppendLine("var {0}:{1};  //assign the value = paramValue)"
-                    .Format(parameter.name,
-                    (parameter.type === 'TypeReference') ? parameter.typeName :
-                        parameter.type.replace('Keyword', '')));
+
+                params.names.push(parameter.name);
+                if (parameter.name.length > 0) {
+                    var paramIt = ''.AppendLine("var {0}:{1};  //assign the value = paramValue)"
+                        .Format(parameter.name, (parameter.type === 'TypeReference') ? parameter.typeName : parameter.type.replace('Keyword', '')));
+                    params.its.push(paramIt);
+                }
             }
         }
-
         it = buildIts(className, mthd, params, specType);
         if (mthd.decorator === 'Input') {
             inputIts.push(it);
@@ -175,12 +179,16 @@ var getAng2Services = function (angular2Obj) {
 
     }
     ang2ServicesObj.itStatements = (inputIts.length > 1) ? inputIts.concat(its) : its;
-    
-    
+
+
     if (specType === 'Component') {
-        (ang2ServicesObj.spies.length > 1) ? ang2ServicesObj.spies.push(''.AppendLine('*/')) : ang2ServicesObj.spies = [''];
-        actualProvider.push(''.AppendLine('*/'));
-        ang2ServicesObj.providers = actualProvider.concat(ang2ServicesObj.providers);
+        var spiesLength = ang2ServicesObj.spies.length;
+        var actProLength = actualProvider.length;
+        var tempProviders = '';
+        (spiesLength > 1) ? ang2ServicesObj.spies[spiesLength - 1] = ang2ServicesObj.spies[spiesLength - 1].AppendLine('*/') : ang2ServicesObj.spies = [];
+        actualProvider[actProLength - 1] = actualProvider[actProLength - 1].AppendLine('*/');
+        tempProviders = actualProvider.join(',') + ang2ServicesObj.providers.join(',');
+        ang2ServicesObj.providers = tempProviders.split(',');
     }
     else {
         ang2ServicesObj.providers = actualProvider;
@@ -223,13 +231,13 @@ var getReturnType = function (mthd) {
 }
 var buildIts = function (className, mthd, params, specType) {
     var it = "";
-    var methodIt= "var actualValue = comp.{0}({1}); //execute the method";
-    var fixDetect='fixture.detectChanges();';
+    var methodIt = "var actualValue = comp.{0}({1}); //execute the method";
+    var fixDetect = 'fixture.detectChanges();';
     var retType = getReturnType(mthd);
 
-    if(specType != 'Component'){
-           methodIt="var actualValue = {0}.{0}({1}).subscribe(res => { return res;}); //execute the method".Format(className.initSmall());
-            fixDetect='';
+    if (specType != 'Component') {
+        methodIt = "var actualValue = {0}.{0}({1}).subscribe(res => { return res;}); //execute the method".Format(className.initSmall());
+        fixDetect = '';
     }
     if ((mthd.name.trim() === 'constructor')) {
         if (specType === 'Component') {
@@ -241,7 +249,7 @@ var buildIts = function (className, mthd, params, specType) {
             it = it.AppendLine("it('should instantiate {0} ', function(){".Format(className));
             it = it.AppendLine("expect({0}).not.toBe(null,'{0} service not instantiated');".Format(className));
             it = it.AppendLine("});");
-         
+
         }
     }
     else if (mthd.decorator === 'Input') {
@@ -256,9 +264,10 @@ var buildIts = function (className, mthd, params, specType) {
     }
 
     else if (mthd.type == 'MethodDeclaration') {
-        it = it.AppendLine("it('should execute method {0}',function(){\n".Format(mthd.name));
+        it = it.AppendLine("it('should execute method {0}',function(){".Format(mthd.name));
+        it = it.append(params.its.join(''));
         it = it.AppendLine("var expectedValue:{0}; //assign expected return value".Format(retType));
-        it = it.AppendLine(methodIt.Format(mthd.name, params.join(',')));
+        it = it.AppendLine(methodIt.Format(mthd.name, params.names.join(',')));
         it = it.AppendLine(fixDetect);
         it = it.AppendLine("expect(actualValue).toBe(expectedValue); //Change your it logic accordingly");
         it = it.AppendLine("//add more expects here");
