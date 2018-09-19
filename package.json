@@ -9,7 +9,7 @@
     "angular-route": "1.5.5",
     "balanced-match": "^0.4.1",
     "body-parser": "^1.15.0",
-    "bootstrap": "^4.1.2,
+    "bootstrap": "^4.1.2",
     "cookie-parser": "^1.4.1",
     "easy-zip": "0.0.4",
     "express": "^4.13.4",
