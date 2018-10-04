@@ -34,6 +34,10 @@ var getangular2Specs = function (funObject, callback) {
 }
 var createAng2TestSpec = function (fname) {
     destName = fname.replace("AngularSrc", "specs").replace(".ts", ".spec.ts");
+    var folderName =path.dirname(destName);
+    if(!fs.existsSync(folderName)){
+        fs.mkdirSync(folderName);
+    }
     var fileContent = fs.readFileSync(fname).toString();
     var compContent = '';
     // Parse a file
