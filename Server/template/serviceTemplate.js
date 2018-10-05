@@ -12,7 +12,6 @@ describe('%componentName% service testing ', () => {
 	%beforeEachStart%
 
 		TestBed.configureTestingModule({
-		   declarations: [ %moduleName% ],
 		   providers:    [ 
 							%providers% 
 						 ]
